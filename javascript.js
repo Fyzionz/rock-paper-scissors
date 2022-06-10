@@ -1,10 +1,25 @@
         // this is the Javascript code to run a game of Rock/Paper/Scissors without using HTML and CSS
+        let roundNumber = 0;
+        let playerScore = 0;
+        let playerSelection = "";
+        let computerScore = 0;
+        let computerSelection = "";
+        let tie = 0;
+        let gameendmessage = ``;
+        let res = "";
+        function gameEnd(){
+            if (playerScore > computerScore){
+                gameendmessage = `Congratulations, you win! \nResuts: W-${playerScore} L-${computerScore}`
+            } else 
+                gameendmessage = `You lose. \nResuts: W-${playerScore} L-${computerScore}`
 
+        }
         
         // play a full game
         function game() {
 
             // this will change all the scores back to their starting values
+            let roundNumber = 0;
             let playerScore = 0;
             let playerSelection = "";
             let computerScore = 0;
@@ -82,26 +97,67 @@
         // compare and log a Message
         function playRound(computerSelection, playerSelection) {
             let com = "";
+            roundNumber++;
+            
             if (computerSelection == playerSelection){
                 com = "Tie!";
+    
             }
             else if (computerSelection == "Rock" && playerSelection == "Scissors"){
                 com = "You lose! Rock beats scissors.";
+                computerScore++;
             }
             else if (computerSelection == "Rock" && playerSelection == "Paper"){
                 com = "You win! Paper covers rock.";
+                playerScore++;
             }
             else if (computerSelection == "Paper" && playerSelection == "Rock"){
                 com = "You lose! Paper covers rock.";
+                computerScore++;
             }
             else if (computerSelection == "Paper" && playerSelection == "Scissors"){
                 com = "You win! Scissors beats paper.";
+                playerScore++;
             }
             else if (computerSelection == "Scissors" && playerSelection == "Rock"){
                 com = "You win! Rock beats scissors.";
+                playerScore++;
             }
             else if (computerSelection == "Scissors" && playerSelection == "Paper"){
                 com = "You lose! Scissors beats paper.";
+                computerScore++;
             }
             return com;
         }
+        const buttons = document.querySelectorAll('button');
+
+        buttons.forEach((button) =>{
+            button.addEventListener('click', function (e) {
+                
+                
+                
+                playerSelection = `${e.target.id}`;
+                computerSelection = computerPlay();
+                com = playRound(computerSelection, playerSelection)
+
+                const bodySelect = document.querySelector('body');
+                const content = document.createElement('div');
+                content.textContent = com;
+
+                bodySelect.appendChild(content);
+
+                const headerSelect = document.querySelector('h2');
+                headerSelect.textContent = `score: ${playerScore} - ${computerScore} `;
+                
+                if (playerScore == 5 || computerScore == 5){
+                    gameEnd();
+                    alert(gameendmessage);
+                }
+
+                console.log(playerSelection)
+                console.log(computerSelection)
+                console.log(com);
+                console.log(playerScore)
+                console.log(roundNumber)
+            })
+            })
